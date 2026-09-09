@@ -3,10 +3,15 @@ set -e
 
 if [ -z "$SKIP_DB_WAIT" ] || [ "$SKIP_DB_WAIT" = "0" ]; then
   echo "Waiting for MySQL at ${DB_HOST:-db}:${DB_PORT:-3306}..."
+  if [ -n "$MYSQL_ATTR_SSL_CA" ]; then
+    SSL_ARGS="--ssl-ca=$MYSQL_ATTR_SSL_CA"
+  else
+    SSL_ARGS="--skip-ssl"
+  fi
   i=0
-  until mysqladmin ping --silent --skip-ssl \
+  until mysqladmin ping --silent \
     --host="${DB_HOST:-db}" --port="${DB_PORT:-3306}" \
-    -u"${DB_USERNAME:-root}" -p"${DB_PASSWORD:-rootsecret}" 2>/dev/null; do
+    -u"${DB_USERNAME:-root}" -p"${DB_PASSWORD:-rootsecret}" ${SSL_ARGS} 2>/dev/null; do
     i=$((i + 1))
     if [ "$i" -ge 60 ]; then
       echo "MySQL not reachable after 120s. Continuing anyway..."
