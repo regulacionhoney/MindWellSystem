@@ -54,7 +54,7 @@ export default function StudentNotificationsPage() {
     <div>
       <PageHeader
         title="Notifications"
-        subtitle="Updates about your counseling requests and appointments."
+        subtitle="Updates about your counseling requests and events."
         actions={
           <Button variant="secondary" onClick={handleMarkAllRead}>
             Mark all as read

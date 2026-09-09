@@ -43,7 +43,7 @@ export default function StudentAppointmentsPage() {
   };
 
   const handleCancel = async (id: number) => {
-    if (!window.confirm("Cancel this appointment?")) return;
+    if (!window.confirm("Cancel this event?")) return;
     try {
       await appointmentApi.cancelAppointment(id);
       refetch();
@@ -55,8 +55,8 @@ export default function StudentAppointmentsPage() {
   return (
     <div>
       <PageHeader
-        title="My Appointments"
-        subtitle="Track your scheduled counseling sessions."
+        title="My Events"
+        subtitle="Track your scheduled events."
         actions={
           <Select value={filter} onChange={(e) => { setFilter(e.target.value as Filter); setPage(1); }}>
             <option value="all">All statuses</option>
@@ -82,8 +82,8 @@ export default function StudentAppointmentsPage() {
           ) : !data || data.data.length === 0 ? (
             <EmptyState
               icon={<Icon name="calendar" className="size-10" />}
-              title="No appointments found"
-              description="Appointments appear here once a counselor schedules a session with you."
+              title="No events found"
+              description="Events appear here once a counselor schedules a session with you."
             />
           ) : (
             <>

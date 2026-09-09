@@ -15,7 +15,7 @@ export const NAV_ITEMS: Record<UserRole, NavItem[]> = {
   student: [
     { to: "/student/dashboard", label: "Dashboard", icon: "dashboard" },
     { to: "/student/counseling-request", label: "Counseling Request", icon: "clipboard" },
-    { to: "/student/appointments", label: "Appointments", icon: "calendar" },
+    { to: "/student/appointments", label: "Events", icon: "calendar" },
     { to: "/student/resources", label: "Resources", icon: "book" },
     { to: "/student/notifications", label: "Notifications", icon: "bell" },
   ],

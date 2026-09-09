@@ -47,7 +47,7 @@ export default function StudentDashboardPage() {
           icon={<Icon name="bell" />}
         />
         <StatCard
-          label="Upcoming appointments"
+          label="Upcoming events"
           value={data.upcoming_appointments.length}
           icon={<Icon name="calendar" />}
           tone="text-blue-600"
@@ -69,7 +69,7 @@ export default function StudentDashboardPage() {
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardHeader className="flex items-center justify-between">
-            <CardTitle>Upcoming appointments</CardTitle>
+            <CardTitle>Upcoming events</CardTitle>
             <Link to="/student/appointments" className="text-sm font-medium text-emerald-700 hover:text-emerald-800">
               View all
             </Link>
@@ -77,8 +77,8 @@ export default function StudentDashboardPage() {
           <CardBody>
             {data.upcoming_appointments.length === 0 ? (
               <EmptyState
-                title="No upcoming appointments"
-                description="Once a counselor schedules an appointment, it will appear here."
+                title="No upcoming events"
+                description="Once a counselor schedules an event, it will appear here."
                 action={
                   <Link to="/student/counseling-request" className="text-sm font-medium text-emerald-700 hover:text-emerald-800">
                     Request counseling
