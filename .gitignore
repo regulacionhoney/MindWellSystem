@@ -31,3 +31,8 @@ dist-ssr
 # Unrelated / local-only folders
 frontend/
 docker/
+
+# Vercel
+.vercel/
+.vercel
+.env*
