@@ -152,11 +152,6 @@ export default function CounselorAppointmentsPage() {
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
                       <StatusBadge value={appointment.status} />
-                      {appointment.status === "pending" && (
-                        <Button size="sm" loading={busyId === appointment.id} onClick={() => runAction(appointment.id, appointmentApi.confirmAppointment)}>
-                          Confirm
-                        </Button>
-                      )}
                       {appointment.status === "confirmed" && (
                         <>
                           <Button size="sm" loading={busyId === appointment.id} onClick={() => runAction(appointment.id, appointmentApi.completeAppointment)}>

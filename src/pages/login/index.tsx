@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { AuthShell } from "@/components/common/auth-shell";
 import { SocialLogin } from "@/components/common/social-login";
 import { Alert } from "@/components/ui/alert";
@@ -9,10 +9,16 @@ import { Label } from "@/components/ui/label";
 import { useAuth } from "@/context/AuthContext";
 import { getErrorMessage } from "@/services/api";
 
+type LoginState = {
+  registered?: boolean;
+  email?: string;
+};
+
 export default function LoginPage() {
   const { login, isAuthenticated, role } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const locationState = useLocation().state as LoginState | null;
+  const [email, setEmail] = useState(locationState?.email ?? "");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -45,6 +51,12 @@ export default function LoginPage() {
     <AuthShell>
       <h2 className="text-lg font-semibold text-gray-900">Sign in</h2>
       <p className="mt-1 text-sm text-gray-500">Welcome back. Enter your details to continue.</p>
+
+      {locationState?.registered && (
+        <Alert variant="success" className="mt-4">
+          Account created successfully. Sign in to continue.
+        </Alert>
+      )}
 
       {error && (
         <Alert variant="error" className="mt-4">

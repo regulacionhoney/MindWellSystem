@@ -65,9 +65,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const register = useCallback(async (payload: RegisterPayload) => {
     const response = await authApi.register(payload);
-    storeSession(response.user, response.token);
     return response.user;
-  }, [storeSession]);
+  }, []);
 
   const completeSocialSession = useCallback(
     (authUser: User, authToken: string) => {

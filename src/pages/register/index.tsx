@@ -47,7 +47,7 @@ export default function RegisterPage() {
     if (!validate()) return;
     setSubmitting(true);
     try {
-      const loggedIn = await register({
+      const created = await register({
         name: name.trim(),
         email: email.trim(),
         password,
@@ -55,8 +55,7 @@ export default function RegisterPage() {
         role: selectedRole,
         phone: phone.trim() || undefined,
       });
-      const target = loggedIn.role === "admin" ? "/admin/dashboard" : `/${loggedIn.role}/dashboard`;
-      navigate(target, { replace: true });
+      navigate("/login", { replace: true, state: { registered: true, email: created.email } });
     } catch (registerError) {
       setError(getErrorMessage(registerError));
     } finally {

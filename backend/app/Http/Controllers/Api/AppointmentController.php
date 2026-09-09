@@ -53,14 +53,14 @@ class AppointmentController extends Controller
             'student_id' => $validated['student_id'],
             'scheduled_at' => $validated['scheduled_at'],
             'duration_minutes' => $validated['duration_minutes'],
-            'status' => Appointment::STATUS_PENDING,
+            'status' => Appointment::STATUS_CONFIRMED,
             'notes' => $validated['notes'] ?? null,
         ]);
 
         Notification::create([
             'user_id' => $appointment->student_id,
             'title' => 'New appointment scheduled',
-            'message' => 'A counseling appointment has been scheduled for you.',
+            'message' => 'A counseling appointment has been scheduled and confirmed for you.',
             'type' => 'appointment',
             'related_type' => Appointment::class,
             'related_id' => $appointment->id,
