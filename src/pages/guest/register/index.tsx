@@ -6,6 +6,7 @@ import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Select } from "@/components/ui/select";
 import { useAuth } from "@/context/AuthContext";
 import { getErrorMessage } from "@/services/api";
@@ -118,9 +119,8 @@ export default function RegisterPage() {
         </div>
         <div>
           <Label htmlFor="password">Password</Label>
-          <Input
+          <PasswordInput
             id="password"
-            type="password"
             value={password}
             error={errors.password}
             placeholder="At least 8 characters"
@@ -130,9 +130,8 @@ export default function RegisterPage() {
         </div>
         <div>
           <Label htmlFor="password_confirmation">Confirm password</Label>
-          <Input
+          <PasswordInput
             id="password_confirmation"
-            type="password"
             value={passwordConfirmation}
             error={errors.password_confirmation}
             placeholder="Repeat your password"
