@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from "react-router";
-import { AuthProvider, useAuth } from "@/context/AuthContext";
+import { AuthProvider } from "@/context/AuthContext";
 import { ProtectedRoute } from "@/components/common/protected-route";
 import { RoleRoute } from "@/components/common/role-route";
 import { AppLayout } from "@/components/common/app-layout";
-import LoginPage from "@/pages/login";
-import RegisterPage from "@/pages/register";
-import OAuthCallbackPage from "@/pages/oauth-callback";
+import GuestHomePage from "@/pages/guest/home";
+import LoginPage from "@/pages/guest/login";
+import RegisterPage from "@/pages/guest/register";
+import OAuthCallbackPage from "@/pages/guest/oauth-callback";
 import ProfilePage from "@/pages/profile";
 import StudentDashboardPage from "@/pages/student/dashboard";
 import StudentCounselingRequestPage from "@/pages/student/counseling-request";
@@ -35,23 +36,12 @@ function ScrollToTop() {
   return null;
 }
 
-function HomeRedirect() {
-  const { user, loading } = useAuth();
-
-  if (loading) return null;
-
-  if (!user) return <Navigate to="/login" replace />;
-
-  const target = user.role === "admin" ? "/admin/dashboard" : `/${user.role}/dashboard`;
-  return <Navigate to={target} replace />;
-}
-
 function Router() {
   return (
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<HomeRedirect />} />
+        <Route path="/" element={<GuestHomePage />} />
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
