@@ -1,0 +1,14 @@
+name: Keep Render awake
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    name: Ping backend health check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hit /up endpoint
+        run: curl -sSf -o /dev/null -w "Render /up responded with %{http_code}\n" https://mindwell-api-0ll8.onrender.com/up || true
