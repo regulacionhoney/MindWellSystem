@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardBody } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordInput } from "@/components/ui/password-input";
 import { useAuth } from "@/context/AuthContext";
 import { getErrorMessage } from "@/services/api";
 import { authApi } from "@/services/authApi";
@@ -19,6 +20,13 @@ export default function ProfilePage() {
   const [avatar, setAvatar] = useState(user?.avatar ?? "");
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ kind: "success" | "error"; text: string } | null>(null);
+
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [pwErrors, setPwErrors] = useState<Record<string, string>>({});
+  const [savingPassword, setSavingPassword] = useState(false);
+  const [pwMessage, setPwMessage] = useState<{ kind: "success" | "error"; text: string } | null>(null);
 
   if (!user) {
     return null;
@@ -45,6 +53,38 @@ export default function ProfilePage() {
       setMessage({ kind: "error", text: getErrorMessage(updateError) });
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handlePasswordSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    setPwMessage(null);
+    const nextErrors: Record<string, string> = {};
+    if (!currentPassword) nextErrors.current_password = "Enter your current password.";
+    if (newPassword.length < 8) nextErrors.password = "Password must be at least 8 characters.";
+    if (newPassword !== passwordConfirmation) {
+      nextErrors.password_confirmation = "Passwords do not match.";
+    }
+    if (Object.keys(nextErrors).length > 0) {
+      setPwErrors(nextErrors);
+      return;
+    }
+    setPwErrors({});
+    setSavingPassword(true);
+    try {
+      await authApi.updatePassword({
+        current_password: currentPassword,
+        password: newPassword,
+        password_confirmation: passwordConfirmation,
+      });
+      setCurrentPassword("");
+      setNewPassword("");
+      setPasswordConfirmation("");
+      setPwMessage({ kind: "success", text: "Password updated successfully." });
+    } catch (updateError) {
+      setPwMessage({ kind: "error", text: getErrorMessage(updateError) });
+    } finally {
+      setSavingPassword(false);
     }
   };
 
@@ -99,6 +139,58 @@ export default function ProfilePage() {
             <div className="flex justify-end border-t border-gray-100 pt-4">
               <Button type="submit" loading={saving}>
                 Save changes
+              </Button>
+            </div>
+          </form>
+        </CardBody>
+      </Card>
+
+      <Card className="mt-6 max-w-2xl shadow-md ring-1 ring-gray-100">
+        <CardBody>
+          <div>
+            <h3 className="text-sm font-semibold text-gray-900">Change password</h3>
+            <p className="text-xs text-gray-500">Update the password used to sign in to your account.</p>
+          </div>
+
+          <form onSubmit={handlePasswordSubmit} className="mt-5 space-y-4">
+            {pwMessage && <Alert variant={pwMessage.kind}>{pwMessage.text}</Alert>}
+            <div>
+              <Label htmlFor="current-password">Current password</Label>
+              <PasswordInput
+                id="current-password"
+                autoComplete="current-password"
+                value={currentPassword}
+                error={pwErrors.current_password}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+              />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <Label htmlFor="new-password">New password</Label>
+                <PasswordInput
+                  id="new-password"
+                  autoComplete="new-password"
+                  value={newPassword}
+                  placeholder="At least 8 characters"
+                  error={pwErrors.password}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </div>
+              <div>
+                <Label htmlFor="confirm-password">Confirm new password</Label>
+                <PasswordInput
+                  id="confirm-password"
+                  autoComplete="new-password"
+                  value={passwordConfirmation}
+                  error={pwErrors.password_confirmation}
+                  onChange={(e) => setPasswordConfirmation(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end border-t border-gray-100 pt-4">
+              <Button type="submit" variant="secondary" loading={savingPassword}>
+                Update password
               </Button>
             </div>
           </form>

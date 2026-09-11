@@ -30,7 +30,7 @@ export function PasswordInput({ className, error, help, ...props }: PasswordInpu
           aria-label={visible ? "Hide password" : "Show password"}
           className="absolute inset-y-0 right-0 flex w-10 cursor-pointer items-center justify-center text-gray-400 transition-colors hover:text-gray-600"
         >
-          <Icon name={visible ? "eye-off" : "eye"} className="size-4" />
+          <Icon name={visible ? "eye" : "eye-off"} className="size-4" />
         </button>
       </div>
       {help && !error && <p className="mt-1 text-xs text-gray-500">{help}</p>}

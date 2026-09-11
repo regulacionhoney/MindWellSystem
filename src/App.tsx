@@ -7,6 +7,8 @@ import { AppLayout } from "@/components/common/app-layout";
 import LoginPage from "@/pages/guest/login";
 import RegisterPage from "@/pages/guest/register";
 import OAuthCallbackPage from "@/pages/guest/oauth-callback";
+import ForgotPasswordPage from "@/pages/guest/forgot-password";
+import ResetPasswordPage from "@/pages/guest/reset-password";
 import ProfilePage from "@/pages/profile";
 import StudentDashboardPage from "@/pages/student/dashboard";
 import StudentCounselingRequestPage from "@/pages/student/counseling-request";
@@ -56,6 +58,8 @@ function Router() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/oauth-callback" element={<OAuthCallbackPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
         <Route
           element={
