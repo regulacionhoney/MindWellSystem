@@ -30,7 +30,7 @@ class OAuthController extends Controller
             return redirect($frontendUrl.'/oauth-callback?error=not_configured&provider='.$provider);
         }
 
-        return Socialite::driver($provider)->stateless()->redirect();
+        return Socialite::driver($provider)->stateless()->with(['prompt' => 'select_account'])->redirect();
     }
 
     /**
