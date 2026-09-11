@@ -39,13 +39,8 @@ done
   if [ -n "$SKIP_SEED" ] && [ "$SKIP_SEED" = "1" ]; then
     echo "Skipping seed (SKIP_SEED=1)."
   else
-    USER_COUNT=$(mysql ${MYSQL_OPTS} -N -e "SELECT COUNT(*) FROM users;" 2>/dev/null || echo "unknown")
-    if [ "$USER_COUNT" = "0" ]; then
-      echo "Empty database — seeding demo data..."
-      php artisan db:seed --force --no-interaction || echo "  Seeding failed (non-fatal)."
-    else
-      echo "Database already seeded — skipping db:seed."
-    fi
+    echo "Seeding demo data (idempotent)..."
+    php artisan db:seed --force --no-interaction || echo "  Seeding failed (non-fatal)."
   fi
 ) &
 
