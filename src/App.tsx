@@ -10,6 +10,7 @@ import OAuthCallbackPage from "@/pages/guest/oauth-callback";
 import ForgotPasswordPage from "@/pages/guest/forgot-password";
 import ResetPasswordPage from "@/pages/guest/reset-password";
 import ProfilePage from "@/pages/profile";
+import MessagesPage from "@/pages/messages";
 import StudentDashboardPage from "@/pages/student/dashboard";
 import StudentCounselingRequestPage from "@/pages/student/counseling-request";
 import StudentAppointmentsPage from "@/pages/student/appointments";
@@ -83,6 +84,7 @@ function Router() {
             <Route path="appointments" element={<StudentAppointmentsPage />} />
             <Route path="resources" element={<StudentResourcesPage />} />
             <Route path="notifications" element={<StudentNotificationsPage />} />
+            <Route path="messages" element={<MessagesPage />} />
           </Route>
 
           <Route
@@ -98,6 +100,7 @@ function Router() {
             <Route path="appointments" element={<CounselorAppointmentsPage />} />
             <Route path="records" element={<CounselorRecordsPage />} />
             <Route path="follow-ups" element={<CounselorFollowUpsPage />} />
+            <Route path="messages" element={<MessagesPage />} />
           </Route>
 
           <Route

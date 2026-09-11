@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SendMessageRequest;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -64,7 +65,7 @@ class MessageController extends Controller
     {
         $userId = $request->user()->id;
 
-        $messages = Message::where('sender_id', $userId)
+        $latest = Message::where('sender_id', $userId)
             ->orWhere('receiver_id', $userId)
             ->with(['sender:id,name,avatar', 'receiver:id,name,avatar'])
             ->latest('sent_at')
@@ -72,7 +73,32 @@ class MessageController extends Controller
             ->unique(fn ($m) => $m->sender_id === $userId ? $m->receiver_id : $m->sender_id)
             ->values();
 
-        return $this->success($messages, 'Conversations retrieved');
+        $unreadCounts = Message::where('receiver_id', $userId)
+            ->where('is_read', false)
+            ->selectRaw('sender_id, count(*) as unread_total')
+            ->groupBy('sender_id')
+            ->pluck('unread_total', 'sender_id');
+
+        foreach ($latest as $message) {
+            $peer = $message->sender_id === $userId ? $message->receiver_id : $message->sender_id;
+            $message->setAttribute('unread_count', (int) ($unreadCounts[$peer] ?? 0));
+            $message->setAttribute('contact', $message->sender_id === $userId ? $message->receiver : $message->sender);
+        }
+
+        return $this->success($latest, 'Conversations retrieved');
+    }
+
+    /**
+     * List active users the authenticated user can start a conversation with.
+     */
+    public function contacts(Request $request): JsonResponse
+    {
+        $contacts = User::where('id', '!=', $request->user()->id)
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get(['id', 'name', 'email', 'avatar', 'role']);
+
+        return $this->success($contacts, 'Contacts retrieved');
     }
 
     /**

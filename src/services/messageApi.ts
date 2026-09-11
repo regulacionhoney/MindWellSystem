@@ -1,9 +1,13 @@
 import api, { unwrap } from "./api";
-import type { Message, Paginated } from "@/types";
+import type { Conversation, Message, Paginated, UserRef } from "@/types";
 
 export const messageApi = {
-  async conversations(): Promise<Message[]> {
-    return unwrap(await api.get<Message[]>("/conversations"));
+  async conversations(): Promise<Conversation[]> {
+    return unwrap(await api.get<Conversation[]>("/conversations"));
+  },
+
+  async contacts(): Promise<UserRef[]> {
+    return unwrap(await api.get<UserRef[]>("/conversations/contacts"));
   },
 
   async conversation(userId: number, params?: { per_page?: number }): Promise<Paginated<Message>> {

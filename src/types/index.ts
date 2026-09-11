@@ -131,6 +131,11 @@ export type Message = {
   receiver?: UserRef;
 };
 
+export type Conversation = Message & {
+  unread_count?: number;
+  contact?: UserRef;
+};
+
 export type StudentDashboard = {
   upcoming_appointments: Appointment[];
   counseling_requests: CounselingRequest[];
