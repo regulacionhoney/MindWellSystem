@@ -164,6 +164,7 @@ class AuthController extends Controller
             'token' => ['required', 'string'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password_confirmation' => ['required', 'string'],
         ]);
 
         $status = Password::broker()->reset(
