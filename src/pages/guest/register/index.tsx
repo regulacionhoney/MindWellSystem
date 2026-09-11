@@ -144,7 +144,7 @@ export default function RegisterPage() {
         </Button>
       </form>
 
-      <SocialLogin providers={["google", "facebook"]} />
+      <SocialLogin />
 
       <p className="mt-5 text-center text-sm text-gray-500">
         Already have an account?{" "}

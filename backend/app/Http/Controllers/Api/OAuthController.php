@@ -13,7 +13,7 @@ use Throwable;
 
 class OAuthController extends Controller
 {
-    private const SUPPORTED_PROVIDERS = ['google', 'facebook'];
+    private const SUPPORTED_PROVIDERS = ['google'];
 
     /**
      * Redirect the user to the given OAuth provider.

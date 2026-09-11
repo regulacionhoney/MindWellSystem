@@ -92,7 +92,7 @@ export default function LoginPage() {
         </Button>
       </form>
 
-      <SocialLogin providers={["google", "facebook"]} />
+      <SocialLogin />
 
       <p className="mt-5 text-center text-sm text-gray-500">
         Don&apos;t have an account?{" "}
